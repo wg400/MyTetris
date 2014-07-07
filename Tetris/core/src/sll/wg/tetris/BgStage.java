@@ -34,7 +34,7 @@ public class BgStage extends Stage {
 	long curTime ;
 	long delay = 30 ;
 	int index = 19 ;
-	static int modelSize = 15 ;
+	static int modelSize = 17 ;
 	static Random random = new Random(modelSize) ;
 	public static int modelIndex ;
 	boolean visible = true ;
@@ -129,6 +129,8 @@ public class BgStage extends Stage {
 		models[12] = new ModelL8(tetrisModels) ;
 		models[13] = new ModelN1(tetrisModels) ;
 		models[14] = new ModelN2(tetrisModels) ;
+		models[15] = new ModelN3(tetrisModels) ;
+		models[16] = new ModelN4(tetrisModels) ;
 	}
 	
 	private void setLineVisible(int index,boolean visible) {
@@ -275,7 +277,7 @@ public class BgStage extends Stage {
 	public static void setModelIndex() {
 //		BgStage.modelIndex = Math.abs(random.nextInt())%modelSize ;
 //		BgStage.modelIndex = (int) (Math.random()*modelSize) ;
-		BgStage.modelIndex = (int) (Math.random()*2) + 13 ;
+		BgStage.modelIndex = (int) (Math.random()*2) + 15 ;
 //		BgStage.modelIndex = 10 ;
 		System.out.println("BgStage.modelIndex:"+BgStage.modelIndex);
 	}
