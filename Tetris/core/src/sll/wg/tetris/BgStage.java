@@ -1,16 +1,19 @@
 package sll.wg.tetris;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class BgStage extends Stage implements EventListener {
+public class BgStage extends Stage {
 	int col = 10;
 	int line = 20;
 	float topH ;
@@ -23,18 +26,22 @@ public class BgStage extends Stage implements EventListener {
 	ImageButton button_c ;
 	Image topbg ;
 	TetrisModel[][] tetrisModels ;
-	Model[] models ;
+	public static Model[] models ;
 	
 	boolean showStartAnim = true ;
 	boolean isStart = false ;
 	int isPause = -1 ;
 	long curTime ;
-	long delay = 50 ;
+	long delay = 30 ;
 	int index = 19 ;
-	int modelIndex ;
+	static int modelSize = 15 ;
+	static Random random = new Random(modelSize) ;
+	public static int modelIndex ;
 	boolean visible = true ;
 	
 	long clickTime ;
+	int clickdelay = 130 ;
+	int witchPress = 0; //1¡¢left 2¡¢ right 3¡¢down
 	public BgStage() {
 		super() ;
 		init() ;
@@ -70,12 +77,11 @@ public class BgStage extends Stage implements EventListener {
 		button_r.setPosition(bottomH*0.85f, bottomH*0.45f);
 		button_d.setPosition(bottomH*0.45f, bottomH*0.05f);
 		button_c.setPosition(Gdx.graphics.getWidth()-bottomH*0.85f, bottomH*0.1f);
-		button_l.addListener(this) ;
-		button_r.addListener(this) ;
-		button_d.addListener(this) ;
-		button_c.addListener(this) ;
-		topbg.addListener(this) ;
-		
+		button_l.addListener(listener) ;
+		button_r.addListener(listener) ;
+		button_d.addListener(listener) ;
+		button_c.addListener(listener) ;
+		topbg.addListener(listener) ;
 		this.addActor(bg);
 		this.addActor(topbg);
 		this.addActor(button_l);
@@ -83,6 +89,7 @@ public class BgStage extends Stage implements EventListener {
 		this.addActor(button_d);
 		this.addActor(button_c);
 		
+		setModelIndex() ;
 		initTetris() ;
 	}
 	
@@ -94,8 +101,8 @@ public class BgStage extends Stage implements EventListener {
 		float paddingv = 2.6f ;
 		curTime = System.currentTimeMillis() ;
 		tetrisModels = new TetrisModel[line][col] ;
-		models = new Model[10] ;
-		startx = Gdx.graphics.getWidth()*startx/startTopW ;
+		models = new Model[modelSize] ;
+		startx = Gdx.graphics.getWidth()*startx/startTopW ; 
 		starty = Gdx.graphics.getHeight() - topH*starty/startTopH ;
 		startw = Gdx.graphics.getWidth()*startw/startTopW ;
 		paddingh = Gdx.graphics.getWidth()*paddingh/startTopW ;
@@ -107,8 +114,21 @@ public class BgStage extends Stage implements EventListener {
 				this.addActor(tetrisModels[i][j].image);
 			}
 		}
-		
-		models[0] = new Model1(tetrisModels) ;
+		models[0] = new ModelRect(tetrisModels) ;
+		models[1] = new ModelT1(tetrisModels) ;
+		models[2] = new ModelT2(tetrisModels) ;
+		models[3] = new ModelT3(tetrisModels) ;
+		models[4] = new ModelT4(tetrisModels) ;
+		models[5] = new ModelL1(tetrisModels) ;
+		models[6] = new ModelL2(tetrisModels) ;
+		models[7] = new ModelL3(tetrisModels) ;
+		models[8] = new ModelL4(tetrisModels) ;
+		models[9] = new ModelL5(tetrisModels) ;
+		models[10] = new ModelL6(tetrisModels) ;
+		models[11] = new ModelL7(tetrisModels) ;
+		models[12] = new ModelL8(tetrisModels) ;
+		models[13] = new ModelN1(tetrisModels) ;
+		models[14] = new ModelN2(tetrisModels) ;
 	}
 	
 	private void setLineVisible(int index,boolean visible) {
@@ -122,6 +142,26 @@ public class BgStage extends Stage implements EventListener {
 	
 	public void showStartAnim() {
 		long time = System.currentTimeMillis() ;
+		if (witchPress!=0&&time-clickTime>clickdelay) {
+			clickTime = time ;
+			clickdelay = clickdelay>40?clickdelay-30:clickdelay ;
+			// ¼ÓËÙ
+			if (isPause==0) {
+				switch (witchPress) {
+				case 1:
+					models[modelIndex].moveleft();
+					break;
+				case 2:
+					models[modelIndex].moveRight();
+					break;
+				case 3:
+					models[modelIndex].moveDown();
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		if (time-curTime>delay) {
 			curTime = time ;
 			if (index<0) {
@@ -135,7 +175,6 @@ public class BgStage extends Stage implements EventListener {
 						if (isPause==0) {
 							models[modelIndex].moveDown();
 						}
-						
 					}
 				}
 			}
@@ -232,25 +271,29 @@ public class BgStage extends Stage implements EventListener {
 			setLineVisible(i,false) ;
 		}
 	}
-
-	@Override
-	public boolean handle(Event event) {
-		long time = System.currentTimeMillis() ;
-		if (time-clickTime>50) {
-			clickTime = time ;
+	
+	public static void setModelIndex() {
+//		BgStage.modelIndex = Math.abs(random.nextInt())%modelSize ;
+//		BgStage.modelIndex = (int) (Math.random()*modelSize) ;
+		BgStage.modelIndex = (int) (Math.random()*2) + 13 ;
+//		BgStage.modelIndex = 10 ;
+		System.out.println("BgStage.modelIndex:"+BgStage.modelIndex);
+	}
+	
+	private InputListener listener = new InputListener() {
+		public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+			System.out.println("touchDown");
 			if (event.getListenerActor() == button_l) {
-				models[modelIndex].moveleft();
+				witchPress = 1 ;
 			} else if (event.getListenerActor() == button_r) {
-				models[modelIndex].moveRight();
+				witchPress = 2 ;
 			} else if (event.getListenerActor() == button_c) {
-				
-			} else if (event.getListenerActor() == button_d) {
-				
+				models[modelIndex].change() ;
 			} else if (event.getListenerActor() == topbg) {
 				isStart = true ;
 				if (isPause == -1) {
 					isPause = 0 ;
-					delay = 200 ;
+					delay = 300 ;
 					clearScreen() ;
 					curTime = System.currentTimeMillis() ;
 				} else if(isPause ==0) {
@@ -258,8 +301,19 @@ public class BgStage extends Stage implements EventListener {
 				} else {
 					isPause = 0 ;
 				}
+			}else if (event.getListenerActor() == button_d) {
+				witchPress = 3 ;
 			}
-		}
-		return false;
-	}
+			return true;
+		};
+		
+		
+		
+		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+			System.out.println("touchUp");
+			witchPress = 0 ;
+			clickTime = 0 ;
+			clickdelay = 100 ;
+		};
+	} ;
 }
