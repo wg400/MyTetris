@@ -52,13 +52,19 @@ public class ModelT1 extends Model  {
 	}
 	
 	public void lock() {
-		tetrisModels[i][j-1].isLock = true ;
-		tetrisModels[i][j].isLock = true ;
-		tetrisModels[i][j+1].isLock = true ;
-		tetrisModels[i-1][j].isLock = true ;
-		this.reset();
-		BgStage.setModelIndex() ;
-		checkDisappear() ;
+		moveModel(this,true) ;
+		if (i==1&&j==4) {
+			// ”Œœ∑Ω· ¯
+			BgStage.reset();
+		} else {
+			tetrisModels[i][j-1].isLock = true ;
+			tetrisModels[i][j].isLock = true ;
+			tetrisModels[i][j+1].isLock = true ;
+			tetrisModels[i-1][j].isLock = true ;
+			this.reset();
+			BgStage.setModelIndex() ;
+			checkDisappear() ;
+		}
 	}
 	
 	public void moveModel(Model model,boolean visible) {

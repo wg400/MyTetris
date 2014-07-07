@@ -9,7 +9,7 @@ public class ModelL7 extends Model  {
 	public void moveleft() {
 		if (this.j>1) {
 			this.j-- ;
-			if (tetrisModels[i-1][j-1].isLock || tetrisModels[i][j-1].isLock) {
+			if (tetrisModels[i+1][j-1].isLock || tetrisModels[i][j-1].isLock) {
 				this.j++ ;
 			} else {
 				this.j++ ;
@@ -23,7 +23,7 @@ public class ModelL7 extends Model  {
 	public void moveRight() {
 		if (this.j<8) {
 			this.j++ ;
-			if (tetrisModels[i-1][j-1].isLock || tetrisModels[i][j+1].isLock) {
+			if (tetrisModels[i+1][j-1].isLock || tetrisModels[i][j+1].isLock) {
 				this.j-- ;
 			} else {
 				this.j-- ;
@@ -35,9 +35,9 @@ public class ModelL7 extends Model  {
 	}
 
 	public void moveDown() {
-		if (this.i<19) {
+		if (this.i<18) {
 			this.i++ ;
-			if (tetrisModels[i][j-1].isLock || tetrisModels[i][j].isLock || tetrisModels[i][j+1].isLock) {
+			if (tetrisModels[i+1][j-1].isLock || tetrisModels[i][j].isLock || tetrisModels[i][j+1].isLock) {
 				this.i-- ;
 				lock() ;
 			} else {
@@ -52,17 +52,23 @@ public class ModelL7 extends Model  {
 	}
 	
 	public void lock() {
-		tetrisModels[i-1][j-1].isLock = true ;
-		tetrisModels[i][j-1].isLock = true ;
-		tetrisModels[i][j].isLock = true ;
-		tetrisModels[i][j+1].isLock = true ;
-		this.reset();
-		BgStage.setModelIndex() ;
-		checkDisappear() ;
+		moveModel(this,true) ;
+		if (i==1&&j==4) {
+			// ÓÎÏ·½áÊø
+			BgStage.reset();
+		} else {
+			tetrisModels[i+1][j-1].isLock = true ;
+			tetrisModels[i][j-1].isLock = true ;
+			tetrisModels[i][j].isLock = true ;
+			tetrisModels[i][j+1].isLock = true ;
+			this.reset();
+			BgStage.setModelIndex() ;
+			checkDisappear() ;
+		}
 	}
 	
 	public void moveModel(Model model,boolean visible) {
-		tetrisModels[i-1][j-1].setVisible(visible);
+		tetrisModels[i+1][j-1].setVisible(visible);
 		tetrisModels[i][j-1].setVisible(visible);
 		tetrisModels[i][j].setVisible(visible);
 		tetrisModels[i][j+1].setVisible(visible);

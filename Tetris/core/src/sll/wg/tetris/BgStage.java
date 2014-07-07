@@ -28,19 +28,19 @@ public class BgStage extends Stage {
 	TetrisModel[][] tetrisModels ;
 	public static Model[] models ;
 	
-	boolean showStartAnim = true ;
-	boolean isStart = false ;
-	int isPause = -1 ;
+	static boolean showStartAnim = true ;
+	static boolean isStart = false ;
+	static int isPause = -1 ;
 	long curTime ;
-	long delay = 30 ;
-	int index = 19 ;
+	static long delay = 10 ;
+	static int index = 19 ;
 	static int modelSize = 17 ;
 	static Random random = new Random(modelSize) ;
 	public static int modelIndex ;
-	boolean visible = true ;
+	static boolean visible = true ;
 	
 	long clickTime ;
-	int clickdelay = 130 ;
+	int clickdelay = 200 ;
 	int witchPress = 0; //1°¢left 2°¢ right 3°¢down
 	public BgStage() {
 		super() ;
@@ -146,7 +146,7 @@ public class BgStage extends Stage {
 		long time = System.currentTimeMillis() ;
 		if (witchPress!=0&&time-clickTime>clickdelay) {
 			clickTime = time ;
-			clickdelay = clickdelay>40?clickdelay-30:clickdelay ;
+			clickdelay = clickdelay>40?clickdelay-40:clickdelay ;
 			// º”ÀŸ
 			if (isPause==0) {
 				switch (witchPress) {
@@ -276,10 +276,19 @@ public class BgStage extends Stage {
 	
 	public static void setModelIndex() {
 //		BgStage.modelIndex = Math.abs(random.nextInt())%modelSize ;
-//		BgStage.modelIndex = (int) (Math.random()*modelSize) ;
-		BgStage.modelIndex = (int) (Math.random()*2) + 15 ;
-//		BgStage.modelIndex = 10 ;
+		BgStage.modelIndex = (int) (Math.random()*modelSize) ;
+//		BgStage.modelIndex = (int) (Math.random()*2) + 15 ;
+//		BgStage.modelIndex = 9 ;
 		System.out.println("BgStage.modelIndex:"+BgStage.modelIndex);
+	}
+	
+	public static void reset() {
+		showStartAnim = true ;
+		isStart = false ;
+		isPause = -1 ;
+		delay = 10 ;
+		index = 19 ;
+		visible = true ;
 	}
 	
 	private InputListener listener = new InputListener() {
@@ -295,7 +304,7 @@ public class BgStage extends Stage {
 				isStart = true ;
 				if (isPause == -1) {
 					isPause = 0 ;
-					delay = 300 ;
+					delay = 400 ;
 					clearScreen() ;
 					curTime = System.currentTimeMillis() ;
 				} else if(isPause ==0) {
@@ -309,13 +318,11 @@ public class BgStage extends Stage {
 			return true;
 		};
 		
-		
-		
 		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 			System.out.println("touchUp");
 			witchPress = 0 ;
 			clickTime = 0 ;
-			clickdelay = 100 ;
+			clickdelay = 200 ;
 		};
 	} ;
 }
