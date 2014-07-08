@@ -77,4 +77,11 @@ public class ModelN1 extends Model  {
 	public void doChange() {
 		BgStage.modelIndex = 14 ;
 	}
+	
+	public void doDrawNext() {
+		BgStage.nextModels[0][1].setVisible(true) ;
+		BgStage.nextModels[1][1].setVisible(true) ;
+		BgStage.nextModels[1][0].setVisible(true) ;
+		BgStage.nextModels[2][0].setVisible(true) ;
+	} ;
 }

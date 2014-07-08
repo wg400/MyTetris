@@ -24,4 +24,10 @@ public class Tetris extends ApplicationAdapter {
 		bgStage.draw();
 		bgStage.showStartAnim();
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		bgStage.dispose() ;
+	}
 }

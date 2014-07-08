@@ -2,10 +2,6 @@ package sll.wg.tetris;
 
 public class ModelRect extends Model  {
 	// ·½¿é
-	public ModelRect(int i, int j) {
-		super(i, j);
-	}
-	
 	public ModelRect(TetrisModel[][] tetrisModels) {
 		super(0, 4,tetrisModels);
 	}
@@ -84,4 +80,11 @@ public class ModelRect extends Model  {
 	}
 	
 	public void change() {}
+	
+	public void doDrawNext() {
+		BgStage.nextModels[1][1].setVisible(true) ;
+		BgStage.nextModels[1][2].setVisible(true) ;
+		BgStage.nextModels[2][1].setVisible(true) ;
+		BgStage.nextModels[2][2].setVisible(true) ;
+	} ;
 }

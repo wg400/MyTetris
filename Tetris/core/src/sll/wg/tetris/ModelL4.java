@@ -77,4 +77,11 @@ public class ModelL4 extends Model  {
 	public void doChange() {
 		BgStage.modelIndex = 5 ;
 	}
+	
+	public void doDrawNext() {
+		BgStage.nextModels[0][0].setVisible(true) ;
+		BgStage.nextModels[1][0].setVisible(true) ;
+		BgStage.nextModels[1][1].setVisible(true) ;
+		BgStage.nextModels[1][2].setVisible(true) ;
+	} ;
 }

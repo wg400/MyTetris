@@ -9,7 +9,7 @@ public class ModelL6 extends Model  {
 	public void moveleft() {
 		if (this.j>1) {
 			this.j-- ;
-			if (tetrisModels[i][j-1].isLock || tetrisModels[i-1][j+1].isLock) {
+			if (tetrisModels[i-1][j-1].isLock || tetrisModels[i][j].isLock || tetrisModels[i+1][j].isLock) {
 				this.j++ ;
 			} else {
 				this.j++ ;
@@ -21,9 +21,9 @@ public class ModelL6 extends Model  {
 	}
 	
 	public void moveRight() {
-		if (this.j<8) {
+		if (this.j<9) {
 			this.j++ ;
-			if (tetrisModels[i][j+1].isLock || tetrisModels[i-1][j+1].isLock) {
+			if (tetrisModels[i-1][j].isLock || tetrisModels[i][j].isLock || tetrisModels[i+1][j].isLock) {
 				this.j-- ;
 			} else {
 				this.j-- ;
@@ -35,9 +35,9 @@ public class ModelL6 extends Model  {
 	}
 
 	public void moveDown() {
-		if (this.i<19) {
+		if (this.i<18) {
 			this.i++ ;
-			if (tetrisModels[i][j+1].isLock || tetrisModels[i][j].isLock || tetrisModels[i][j-1].isLock) {
+			if (tetrisModels[i-1][j-1].isLock || tetrisModels[i+1][j].isLock) {
 				this.i-- ;
 				lock() ;
 			} else {
@@ -57,10 +57,10 @@ public class ModelL6 extends Model  {
 			// ÓÎÏ·½áÊø
 			BgStage.reset();
 		} else {
-			tetrisModels[i][j-1].isLock = true ;
+			tetrisModels[i-1][j-1].isLock = true ;
+			tetrisModels[i-1][j].isLock = true ;
 			tetrisModels[i][j].isLock = true ;
-			tetrisModels[i][j+1].isLock = true ;
-			tetrisModels[i-1][j+1].isLock = true ;
+			tetrisModels[i+1][j].isLock = true ;
 			this.reset();
 			BgStage.setModelIndex() ;
 			checkDisappear() ;
@@ -68,13 +68,20 @@ public class ModelL6 extends Model  {
 	}
 	
 	public void moveModel(Model model,boolean visible) {
-		tetrisModels[i][j-1].setVisible(visible);
+		tetrisModels[i-1][j-1].setVisible(visible);
+		tetrisModels[i-1][j].setVisible(visible);
 		tetrisModels[i][j].setVisible(visible);
-		tetrisModels[i][j+1].setVisible(visible);
-		tetrisModels[i-1][j+1].setVisible(visible);
+		tetrisModels[i+1][j].setVisible(visible);
 	}
 	
 	public void doChange() {
 		BgStage.modelIndex = 11 ;
 	}
+	
+	public void doDrawNext() {
+		BgStage.nextModels[0][0].setVisible(true) ;
+		BgStage.nextModels[0][1].setVisible(true) ;
+		BgStage.nextModels[1][1].setVisible(true) ;
+		BgStage.nextModels[2][1].setVisible(true) ;
+	} ;
 }

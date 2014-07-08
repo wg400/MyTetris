@@ -20,10 +20,8 @@ public class Model {
 		this.tetrisModels = tetrisModels ;
 	}
 	
-	public Model(int i, int j) {
+	public Model() {
 		super();
-		this.i = i;
-		this.j = j;
 	}
 	
 	public void reset() {
@@ -31,23 +29,11 @@ public class Model {
 		this.j = 4 ;
 	}
 
-	public void moveleft() {
-		if (this.j>0) {
-			this.j-- ;
-		}
-	}
+	public void moveleft() {}
 	
-	public void moveRight() {
-		if (this.j<9) {
-			this.j++ ;
-		}
-	}
+	public void moveRight() {}
 
-	public void moveDown() {
-		if (this.i<19) {
-			this.i++ ;
-		}
-	}
+	public void moveDown() {}
 	
 	public void disappear(ArrayList<Integer> disappearList) {
 		int size = disappearList.size() ;
@@ -64,6 +50,8 @@ public class Model {
 				}
 				setLineVisible(0,false) ;
 			}
+			BgStage.setScore(size) ;
+			BgStage.playSound() ;
 		}
 	}
 	
@@ -93,6 +81,17 @@ public class Model {
 		}
 	}
 	public void doChange() {} ;
+	
+	public void drawNext() {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				BgStage.nextModels[i][j].setVisible(false) ;
+			}
+		}
+		doDrawNext() ;
+	} ;
+	
+	public void doDrawNext() {} ;
 	
 	public void checkDisappear() {
 		int line = tetrisModels.length ;
