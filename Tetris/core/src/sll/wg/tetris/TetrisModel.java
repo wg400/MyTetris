@@ -23,22 +23,8 @@ public class TetrisModel  implements Cloneable {
 		font.setScale(0.3f) ;
 		TextureRegionDrawable d = new TextureRegionDrawable(new TextureRegion(region)) ;
 		style = new TextButtonStyle(d, d, d, font) ;
-		image = new TextButton("ʷ", style) ;
+		image = new TextButton("", style) ;
 		image.setVisible(visible) ;
-	}
-	
-	public TetrisModel(float x,float y,float size) {
-		TextureRegion region = new TextureRegion(new Texture("data/tetris2.png")) ;
-		BitmapFont font = new BitmapFont(Gdx.files.internal("data/sll.fnt"),
-	               Gdx.files.internal("data/sll.png"), false);
-		font.setScale(0.3f) ;
-		TextureRegionDrawable d = new TextureRegionDrawable(new TextureRegion(region)) ;
-		image = new TextButton("ʷ", new TextButtonStyle(d, d, d, font)) ;
-		this.x = x ;
-		this.y = y ;
-		image.setPosition(x, y);
-		image.setSize(size, size);
-		image.setVisible(visible);
 	}
 	
 	public void setData(float x,float y,float size) {
@@ -54,12 +40,15 @@ public class TetrisModel  implements Cloneable {
 		image.setVisible(visible);
 	}
 	
-	@Override
-	protected TetrisModel clone() throws CloneNotSupportedException {
+	public void setText(String text) {
+		image.setText(text) ;
+	}
+	
+	protected TetrisModel clone(String text) throws CloneNotSupportedException {
 		TetrisModel model = null ;
 		try{
 			model = (TetrisModel) super.clone() ;
-			model.image = new TextButton("ʷ", style) ;
+			model.image = new TextButton(text, style) ;
 		}catch(CloneNotSupportedException e){ 
 			e.printStackTrace() ;
 		}

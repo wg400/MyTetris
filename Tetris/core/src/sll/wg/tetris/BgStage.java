@@ -139,10 +139,11 @@ public class BgStage extends Stage {
 		paddingv = topH*paddingv/startTopH ;
 		
 		TetrisModel tetrisModel = new TetrisModel() ;
+		char[][] charArr = FileUtil.getCharArray() ;
 		for (int i = 0; i < line; i++) {
 			for (int j = 0; j < col; j++) {
 				try {
-					tetrisModels[i][j] = tetrisModel.clone() ;
+					tetrisModels[i][j] = tetrisModel.clone(String.valueOf(charArr[i][j]).replaceAll("a", "")) ;
 					tetrisModels[i][j].setData(startx+(startw+paddingh)*j, starty-(startw+paddingv)*i,startw) ;
 					this.addActor(tetrisModels[i][j].image);
 				} catch (CloneNotSupportedException e) {
@@ -157,7 +158,7 @@ public class BgStage extends Stage {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				try {
-					nextModels[i][j] = tetrisModel.clone() ;
+					nextModels[i][j] = tetrisModel.clone("") ;
 					nextModels[i][j].setData(tetrisModels[5+i][col-1].x+startw+paddingh1+(startw+paddingh)*j, tetrisModels[5+i][col-1].y,startw) ;
 					this.addActor(nextModels[i][j].image);
 				} catch (CloneNotSupportedException e) {

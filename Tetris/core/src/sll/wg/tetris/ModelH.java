@@ -3,10 +3,7 @@ package sll.wg.tetris;
 public class ModelH extends Model  {
 	// Ë®Æ½Ò»×Ö
 	public ModelH(TetrisModel[][] tetrisModels) {
-		super();
-		this.i = 0;
-		this.j = 4;
-		this.tetrisModels = tetrisModels ;
+		super(0,4,tetrisModels);
 	}
 	
 	public void reset() {

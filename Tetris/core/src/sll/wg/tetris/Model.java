@@ -15,13 +15,7 @@ public class Model {
 	}
 	
 	public Model(TetrisModel[][] tetrisModels) {
-		this.i = 1;
-		this.j = 4;
-		this.tetrisModels = tetrisModels ;
-	}
-	
-	public Model() {
-		super();
+		this(1,4,tetrisModels) ;
 	}
 	
 	public void reset() {
