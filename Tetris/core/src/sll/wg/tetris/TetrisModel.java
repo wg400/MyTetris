@@ -20,7 +20,7 @@ public class TetrisModel  implements Cloneable {
 		TextureRegion region = new TextureRegion(new Texture("data/tetris2.png")) ;
 		BitmapFont font = new BitmapFont(Gdx.files.internal("data/sll.fnt"),
 	               Gdx.files.internal("data/sll.png"), false);
-		font.setScale(0.3f) ;
+		font.setScale(0.5f) ;
 		TextureRegionDrawable d = new TextureRegionDrawable(new TextureRegion(region)) ;
 		style = new TextButtonStyle(d, d, d, font) ;
 		image = new TextButton("", style) ;

@@ -7,6 +7,7 @@ public class FileUtil {
 	public static char[][] getCharArray() {
 		FileHandle file = Gdx.files.internal("data/poetry.txt") ;
 		String text = file.readString();
+		System.out.println(text);
 		char[][] charArr = new char[20][10] ;
 		String[] temp = text.split("\n") ;
 		for (int i = 0; i < temp.length; i++) {
