@@ -133,7 +133,7 @@ public class BgStage extends Stage {
 		float paddingh = 2.4f ;
 		float paddingv = 2.6f ;
 		float paddingh1 = 21f ;
-		Texture myPic = new Texture("data/myself.png") ;
+		Texture myPic = new Texture("data/myself.jpg") ;
 		int picw = myPic.getWidth()/col ;
 		int pich = myPic.getHeight()/line ;
 		curTime = System.currentTimeMillis() ;
