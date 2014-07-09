@@ -133,7 +133,7 @@ public class BgStage extends Stage {
 		float paddingh = 2.4f ;
 		float paddingv = 2.6f ;
 		float paddingh1 = 21f ;
-		Texture myPic = new Texture("data/myself.jpg") ;
+		Texture myPic = new Texture("data/5.jpg") ;
 		int picw = myPic.getWidth()/col ;
 		int pich = myPic.getHeight()/line ;
 		curTime = System.currentTimeMillis() ;
@@ -195,8 +195,8 @@ public class BgStage extends Stage {
 		models[18] = new ModelV(tetrisModels) ;
 	}
 	
-	public void resetPic() {
-		Texture myPic = new Texture(Gdx.files.external("tetris.jpg")) ;
+	public void resetPic(String path) {
+		Texture myPic = new Texture("data/"+path) ;
 		int picw = myPic.getWidth()/col ;
 		int pich = myPic.getHeight()/line ;
 		

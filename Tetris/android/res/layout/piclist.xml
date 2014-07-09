@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff" >
+    
+    <com.wg.mylib.views.lisview.HorizontalListView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/listview" />
+    
+    <LinearLayout 
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <Button 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="确定"
+            android:layout_margin="5dp"
+            android:textColor="#00BFFF"
+            android:textSize="18sp"
+            android:onClick="doSelect"
+            android:layout_weight="1"/>
+        <Button 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:text="取消"
+            android:textColor="#00BFFF"
+            android:textSize="18sp"
+            android:onClick="doBack"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>
