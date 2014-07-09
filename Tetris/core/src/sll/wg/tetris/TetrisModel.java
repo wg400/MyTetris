@@ -38,6 +38,10 @@ public class TetrisModel  implements Cloneable {
 		image.setVisible(visible);
 	}
 	
+	public void setData(TextureRegion region) {
+		this.image.setDrawable(new TextureRegionDrawable(region)) ;
+	}
+	
 	public void setVisible(boolean visible) {
 		this.visible = visible ;
 		image.setVisible(visible);

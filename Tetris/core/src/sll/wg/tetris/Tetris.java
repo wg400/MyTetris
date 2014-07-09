@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Tetris extends ApplicationAdapter {
-	BgStage bgStage ;
+	public BgStage bgStage ;
 	
 	@Override
 	public void create () {

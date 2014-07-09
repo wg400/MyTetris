@@ -41,7 +41,7 @@ public class BgStage extends Stage {
 	
 	static boolean showStartAnim = true ;
 	static boolean isStart = false ;
-	static int isPause = -1 ;
+	public static int isPause = -1 ;
 	long curTime ;
 	static long delay = 10 ;
 	static int index = 19 ;
@@ -91,6 +91,10 @@ public class BgStage extends Stage {
 		startTopW = topbg.getWidth() ;
 		startTopH = topbg.getHeight() ;
 		
+		float picx = 110 ;
+		float picy = 60 ;
+		float picw = 54 ;
+		float pich = 48 ;
 		topH = Gdx.graphics.getWidth()*startTopH/startTopW ;
 		bottomH = Gdx.graphics.getHeight()-topH ;
 		topbg.setSize(Gdx.graphics.getWidth(), topH);
@@ -189,6 +193,18 @@ public class BgStage extends Stage {
 		models[16] = new ModelN4(tetrisModels) ;
 		models[17] = new ModelH(tetrisModels) ;
 		models[18] = new ModelV(tetrisModels) ;
+	}
+	
+	public void resetPic() {
+		Texture myPic = new Texture(Gdx.files.external("tetris.jpg")) ;
+		int picw = myPic.getWidth()/col ;
+		int pich = myPic.getHeight()/line ;
+		
+		for (int i = 0; i < line; i++) {
+			for (int j = 0; j < col; j++) {
+				tetrisModels[i][j].setData(new TextureRegion(myPic, picw*j, pich*i, picw, pich)) ;
+			}
+		}
 	}
 	
 	private void initLabel() {
