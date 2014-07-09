@@ -22,7 +22,7 @@ public class BgStage extends Stage {
 	int line = 20;
 	static long score ;
 	static Label scoreLabel ;
-	Label hiscoreLabel ;
+	static Label hiscoreLabel ;
 	float topH ;
 	float bottomH ;
 	float startTopW ;
@@ -53,7 +53,7 @@ public class BgStage extends Stage {
 	
 	long clickTime ;
 	int clickdelay = 200 ;
-	int witchPress = 0; //1°¢left 2°¢ right 3°¢down
+	int witchPress = 0; 
 	
 	static boolean canPlaySond = true ;
 	Sound buttonSound ;
@@ -124,33 +124,36 @@ public class BgStage extends Stage {
 	private void initTetris() {
 		float startx = 50 ;
 		float starty = 95 ;
-		float startw = 35 ;
+		float startw = 37.4f ;
+		float startw1 = 35f ;
 		float paddingh = 2.4f ;
 		float paddingv = 2.6f ;
 		float paddingh1 = 21f ;
+		Texture myPic = new Texture("data/myself.png") ;
+		int picw = myPic.getWidth()/col ;
+		int pich = myPic.getHeight()/line ;
 		curTime = System.currentTimeMillis() ;
 		tetrisModels = new TetrisModel[line][col] ;
 		models = new Model[modelSize] ;
 		startx = Gdx.graphics.getWidth()*startx/startTopW ; 
 		starty = Gdx.graphics.getHeight() - topH*starty/startTopH ;
 		startw = Gdx.graphics.getWidth()*startw/startTopW ;
+		startw1 = Gdx.graphics.getWidth()*startw1/startTopW ;
 		paddingh = Gdx.graphics.getWidth()*paddingh/startTopW ;
 		paddingh1 = Gdx.graphics.getWidth()*paddingh1/startTopW ;
 		paddingv = topH*paddingv/startTopH ;
 		
 		TetrisModel tetrisModel = new TetrisModel() ;
-		char[][] charArr = FileUtil.getCharArray() ;
+//		char[][] charArr = FileUtil.getCharArray() ;
 		for (int i = 0; i < line; i++) {
 			for (int j = 0; j < col; j++) {
 				try {
-					tetrisModels[i][j] = tetrisModel.clone(String.valueOf(charArr[i][j]).replaceAll("a", "")) ;
-					tetrisModels[i][j].setData(startx+(startw+paddingh)*j, starty-(startw+paddingv)*i,startw) ;
+					tetrisModels[i][j] = tetrisModel.clone(new TextureRegion(myPic, picw*j, pich*i, picw, pich)) ;
+					tetrisModels[i][j].setData(startx+(startw)*j, starty-(startw)*i,startw) ;
 					this.addActor(tetrisModels[i][j].image);
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
 				}
-//				tetrisModels[i][j] = new TetrisModel(startx+(startw+paddingh)*j, starty-(startw+paddingv)*i,startw) ;
-//				this.addActor(tetrisModels[i][j].image);
 			}
 		}
 		
@@ -158,8 +161,8 @@ public class BgStage extends Stage {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				try {
-					nextModels[i][j] = tetrisModel.clone("") ;
-					nextModels[i][j].setData(tetrisModels[5+i][col-1].x+startw+paddingh1+(startw+paddingh)*j, tetrisModels[5+i][col-1].y,startw) ;
+					nextModels[i][j] = tetrisModel.clone(new TextureRegion(new Texture("data/tetris1.png"))) ;
+					nextModels[i][j].setData(tetrisModels[5+i][col-1].x+startw1+paddingh1+(startw1+paddingh)*j, tetrisModels[5+i][col-1].y-paddingv/2,startw1) ;
 					this.addActor(nextModels[i][j].image);
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
@@ -198,7 +201,7 @@ public class BgStage extends Stage {
 		hiscoreLabelY = topH*hiscoreLabelY/startTopH ;
 		BitmapFont font = new BitmapFont() ;
 		scoreLabel = new Label("", new LabelStyle(font,font.getColor())) ;
-		hiscoreLabel = new Label("", new LabelStyle(font,font.getColor())) ;
+		hiscoreLabel = new Label(FileUtil.getScore(), new LabelStyle(font,font.getColor())) ;
 		scoreLabel.setPosition(Gdx.graphics.getWidth()-scoreLabelX, Gdx.graphics.getHeight()-scoreLabelY) ;
 		scoreLabel.setSize(w, h) ;
 //		scoreLabel.setFontScale(0.7f) ;
@@ -225,7 +228,6 @@ public class BgStage extends Stage {
 		if (witchPress!=0&&time-clickTime>clickdelay) {
 			clickTime = time ;
 			clickdelay = clickdelay>40?clickdelay-40:clickdelay ;
-			// º”ÀŸ
 			if (isPause==0) {
 				switch (witchPress) {
 				case 1:
@@ -266,86 +268,92 @@ public class BgStage extends Stage {
 		}
 	}
 	
-	private void setStartPage() {
-		// 5 
-		tetrisModels[0][1].image.setVisible(true);
-		tetrisModels[0][2].image.setVisible(true);
-		tetrisModels[0][3].image.setVisible(true);
-		tetrisModels[1][1].image.setVisible(true);
-		tetrisModels[2][1].image.setVisible(true);
-		tetrisModels[2][2].image.setVisible(true);
-		tetrisModels[2][3].image.setVisible(true);
-		tetrisModels[3][3].image.setVisible(true);
-		tetrisModels[4][3].image.setVisible(true);
-		tetrisModels[4][2].image.setVisible(true);
-		tetrisModels[4][1].image.setVisible(true);
-		
-		// 2 
-		tetrisModels[6][1].image.setVisible(true);
-		tetrisModels[6][2].image.setVisible(true);
-		tetrisModels[6][3].image.setVisible(true);
-		tetrisModels[7][3].image.setVisible(true);
-		tetrisModels[8][3].image.setVisible(true);
-		tetrisModels[8][2].image.setVisible(true);
-		tetrisModels[8][1].image.setVisible(true);
-		tetrisModels[9][1].image.setVisible(true);
-		tetrisModels[10][1].image.setVisible(true);
-		tetrisModels[10][2].image.setVisible(true);
-		tetrisModels[10][3].image.setVisible(true);
-		
-		// 0 
-		tetrisModels[12][1].image.setVisible(true);
-		tetrisModels[12][2].image.setVisible(true);
-		tetrisModels[12][3].image.setVisible(true);
-		tetrisModels[13][3].image.setVisible(true);
-		tetrisModels[14][3].image.setVisible(true);
-		tetrisModels[15][3].image.setVisible(true);
-		tetrisModels[16][3].image.setVisible(true);
-		tetrisModels[16][2].image.setVisible(true);
-		tetrisModels[16][1].image.setVisible(true);
-		tetrisModels[15][1].image.setVisible(true);
-		tetrisModels[14][1].image.setVisible(true);
-		tetrisModels[13][1].image.setVisible(true);
-		
-		// 4 
-		tetrisModels[0][6].image.setVisible(true);
-		tetrisModels[1][6].image.setVisible(true);
-		tetrisModels[2][6].image.setVisible(true);
-		tetrisModels[2][7].image.setVisible(true);
-		tetrisModels[2][8].image.setVisible(true);
-		tetrisModels[1][8].image.setVisible(true);
-		tetrisModels[0][8].image.setVisible(true);
-		tetrisModels[3][8].image.setVisible(true);
-		tetrisModels[4][8].image.setVisible(true);
-		
-		// 0 
-		tetrisModels[6][6].image.setVisible(true);
-		tetrisModels[6][7].image.setVisible(true);
-		tetrisModels[6][8].image.setVisible(true);
-		tetrisModels[7][8].image.setVisible(true);
-		tetrisModels[8][8].image.setVisible(true);
-		tetrisModels[9][8].image.setVisible(true);
-		tetrisModels[10][8].image.setVisible(true);
-		tetrisModels[10][7].image.setVisible(true);
-		tetrisModels[10][6].image.setVisible(true);
-		tetrisModels[9][6].image.setVisible(true);
-		tetrisModels[8][6].image.setVisible(true);
-		tetrisModels[7][6].image.setVisible(true);
-		
-		// 0 
-		tetrisModels[12][6].image.setVisible(true);
-		tetrisModels[12][7].image.setVisible(true);
-		tetrisModels[12][8].image.setVisible(true);
-		tetrisModels[13][8].image.setVisible(true);
-		tetrisModels[14][8].image.setVisible(true);
-		tetrisModels[15][8].image.setVisible(true);
-		tetrisModels[16][8].image.setVisible(true);
-		tetrisModels[16][7].image.setVisible(true);
-		tetrisModels[16][6].image.setVisible(true);
-		tetrisModels[15][6].image.setVisible(true);
-		tetrisModels[14][6].image.setVisible(true);
-		tetrisModels[13][6].image.setVisible(true);
+	private void setStartPage(){
+		for (int i = 0; i < line; i++) {
+			setLineVisible(i,true) ;
+		}
 	}
+	
+//	private void setStartPage() {
+//		// 5 
+//		tetrisModels[0][1].image.setVisible(true);
+//		tetrisModels[0][2].image.setVisible(true);
+//		tetrisModels[0][3].image.setVisible(true);
+//		tetrisModels[1][1].image.setVisible(true);
+//		tetrisModels[2][1].image.setVisible(true);
+//		tetrisModels[2][2].image.setVisible(true);
+//		tetrisModels[2][3].image.setVisible(true);
+//		tetrisModels[3][3].image.setVisible(true);
+//		tetrisModels[4][3].image.setVisible(true);
+//		tetrisModels[4][2].image.setVisible(true);
+//		tetrisModels[4][1].image.setVisible(true);
+//		
+//		// 2 
+//		tetrisModels[6][1].image.setVisible(true);
+//		tetrisModels[6][2].image.setVisible(true);
+//		tetrisModels[6][3].image.setVisible(true);
+//		tetrisModels[7][3].image.setVisible(true);
+//		tetrisModels[8][3].image.setVisible(true);
+//		tetrisModels[8][2].image.setVisible(true);
+//		tetrisModels[8][1].image.setVisible(true);
+//		tetrisModels[9][1].image.setVisible(true);
+//		tetrisModels[10][1].image.setVisible(true);
+//		tetrisModels[10][2].image.setVisible(true);
+//		tetrisModels[10][3].image.setVisible(true);
+//		
+//		// 0 
+//		tetrisModels[12][1].image.setVisible(true);
+//		tetrisModels[12][2].image.setVisible(true);
+//		tetrisModels[12][3].image.setVisible(true);
+//		tetrisModels[13][3].image.setVisible(true);
+//		tetrisModels[14][3].image.setVisible(true);
+//		tetrisModels[15][3].image.setVisible(true);
+//		tetrisModels[16][3].image.setVisible(true);
+//		tetrisModels[16][2].image.setVisible(true);
+//		tetrisModels[16][1].image.setVisible(true);
+//		tetrisModels[15][1].image.setVisible(true);
+//		tetrisModels[14][1].image.setVisible(true);
+//		tetrisModels[13][1].image.setVisible(true);
+//		
+//		// 4 
+//		tetrisModels[0][6].image.setVisible(true);
+//		tetrisModels[1][6].image.setVisible(true);
+//		tetrisModels[2][6].image.setVisible(true);
+//		tetrisModels[2][7].image.setVisible(true);
+//		tetrisModels[2][8].image.setVisible(true);
+//		tetrisModels[1][8].image.setVisible(true);
+//		tetrisModels[0][8].image.setVisible(true);
+//		tetrisModels[3][8].image.setVisible(true);
+//		tetrisModels[4][8].image.setVisible(true);
+//		
+//		// 0 
+//		tetrisModels[6][6].image.setVisible(true);
+//		tetrisModels[6][7].image.setVisible(true);
+//		tetrisModels[6][8].image.setVisible(true);
+//		tetrisModels[7][8].image.setVisible(true);
+//		tetrisModels[8][8].image.setVisible(true);
+//		tetrisModels[9][8].image.setVisible(true);
+//		tetrisModels[10][8].image.setVisible(true);
+//		tetrisModels[10][7].image.setVisible(true);
+//		tetrisModels[10][6].image.setVisible(true);
+//		tetrisModels[9][6].image.setVisible(true);
+//		tetrisModels[8][6].image.setVisible(true);
+//		tetrisModels[7][6].image.setVisible(true);
+//		
+//		// 0 
+//		tetrisModels[12][6].image.setVisible(true);
+//		tetrisModels[12][7].image.setVisible(true);
+//		tetrisModels[12][8].image.setVisible(true);
+//		tetrisModels[13][8].image.setVisible(true);
+//		tetrisModels[14][8].image.setVisible(true);
+//		tetrisModels[15][8].image.setVisible(true);
+//		tetrisModels[16][8].image.setVisible(true);
+//		tetrisModels[16][7].image.setVisible(true);
+//		tetrisModels[16][6].image.setVisible(true);
+//		tetrisModels[15][6].image.setVisible(true);
+//		tetrisModels[14][6].image.setVisible(true);
+//		tetrisModels[13][6].image.setVisible(true);
+//	}
 	
 	private void clearScreen() {
 		for (int i = 0; i < line; i++) {
@@ -387,6 +395,10 @@ public class BgStage extends Stage {
 		}
 		score += temp ;
 		scoreLabel.setText(score+"") ;
+		if (score>Long.parseLong(FileUtil.getScore())) {
+			hiscoreLabel.setText(score+"") ;
+			FileUtil.setScore(score) ;
+		}
 	}
 	
 	public static void reset() {
