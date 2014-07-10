@@ -28,7 +28,7 @@ public class BgStage extends Stage {
 	float startTopW ;
 	float startTopH ;
 	static float scoreLabelX = 120 ;
-	static float scoreLabelY = 115 ;
+	static float scoreLabelY = 120 ;
 	float hiscoreLabelY = 200 ;
 	ImageButton button_l ;
 	ImageButton button_r ;
@@ -43,17 +43,18 @@ public class BgStage extends Stage {
 	static boolean isStart = false ;
 	public static int isPause = -1 ;
 	long curTime ;
-	static long delay = 10 ;
-	static int index = 19 ;
+	static long delay = 20 ;
+	static int index = 21 ;
 	static int modelSize = 19 ;
 	static Random random = new Random(modelSize) ;
 	public static int modelIndex ;
 	static int nextIndex ;
 	static boolean visible = true ;
+	private Texture myPic ;
 	
-	long clickTime ;
-	int clickdelay = 200 ;
-	int witchPress = 0; 
+	static long clickTime ;
+	static int clickdelay = 180 ;
+	static int witchPress = 0; 
 	
 	static boolean canPlaySond = true ;
 	Sound buttonSound ;
@@ -66,6 +67,7 @@ public class BgStage extends Stage {
 	}
 
 	private void init() {
+		playReset() ;
 		buttonSound = Gdx.audio.newSound(Gdx.files.internal("data/audio/button.ogg")) ;
 		overSound = Gdx.audio.newSound(Gdx.files.internal("data/audio/over.ogg")) ;
 		removeSound = Gdx.audio.newSound(Gdx.files.internal("data/audio/remove.ogg")) ;
@@ -91,10 +93,6 @@ public class BgStage extends Stage {
 		startTopW = topbg.getWidth() ;
 		startTopH = topbg.getHeight() ;
 		
-		float picx = 110 ;
-		float picy = 60 ;
-		float picw = 54 ;
-		float pich = 48 ;
 		topH = Gdx.graphics.getWidth()*startTopH/startTopW ;
 		bottomH = Gdx.graphics.getHeight()-topH ;
 		topbg.setSize(Gdx.graphics.getWidth(), topH);
@@ -113,7 +111,6 @@ public class BgStage extends Stage {
 		button_r.addListener(listener) ;
 		button_d.addListener(listener) ;
 		button_c.addListener(listener) ;
-		topbg.addListener(listener) ;
 		this.addActor(bg);
 		this.addActor(topbg);
 		this.addActor(button_l);
@@ -121,11 +118,11 @@ public class BgStage extends Stage {
 		this.addActor(button_d);
 		this.addActor(button_c);
 		
-		initTetris() ;
+		initTetris(FileUtil.getPic()) ;
 		initLabel() ;
 	}
 	
-	private void initTetris() {
+	public void initTetris(String path) {
 		float startx = 50 ;
 		float starty = 95 ;
 		float startw = 37.4f ;
@@ -133,11 +130,11 @@ public class BgStage extends Stage {
 		float paddingh = 2.4f ;
 		float paddingv = 2.6f ;
 		float paddingh1 = 21f ;
-		Texture myPic = new Texture("data/5.jpg") ;
+		myPic = new Texture("data/"+path) ;
 		int picw = myPic.getWidth()/col ;
 		int pich = myPic.getHeight()/line ;
 		curTime = System.currentTimeMillis() ;
-		tetrisModels = new TetrisModel[line][col] ;
+		tetrisModels = new TetrisModel[line+2][col] ;
 		models = new Model[modelSize] ;
 		startx = Gdx.graphics.getWidth()*startx/startTopW ; 
 		starty = Gdx.graphics.getHeight() - topH*starty/startTopH ;
@@ -148,25 +145,34 @@ public class BgStage extends Stage {
 		paddingv = topH*paddingv/startTopH ;
 		
 		TetrisModel tetrisModel = new TetrisModel() ;
-//		char[][] charArr = FileUtil.getCharArray() ;
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < col; j++) {
+				try {
+					tetrisModels[i][j] = tetrisModel.clone() ;
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		for (int i = 0; i < line; i++) {
 			for (int j = 0; j < col; j++) {
 				try {
-					tetrisModels[i][j] = tetrisModel.clone(new TextureRegion(myPic, picw*j, pich*i, picw, pich)) ;
-					tetrisModels[i][j].setData(startx+(startw)*j, starty-(startw)*i,startw) ;
-					this.addActor(tetrisModels[i][j].image);
+					tetrisModels[i+2][j] = tetrisModel.clone(myPic,picw*j, pich*i, picw, pich) ;
+					tetrisModels[i+2][j].setData(startx+(startw)*j, starty-(startw)*i,startw) ;
+					this.addActor(tetrisModels[i+2][j].image);
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 		
+		TetrisModel tetrisModel1 = new TetrisModel() ;
 		nextModels = new TetrisModel[4][4] ;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				try {
-					nextModels[i][j] = tetrisModel.clone(new TextureRegion(new Texture("data/tetris1.png"))) ;
-					nextModels[i][j].setData(tetrisModels[5+i][col-1].x+startw1+paddingh1+(startw1+paddingh)*j, tetrisModels[5+i][col-1].y-paddingv/2,startw1) ;
+					nextModels[i][j] = tetrisModel1.clone(new Texture("data/tetris.png")) ;
+					nextModels[i][j].setData(tetrisModels[7+i][col-1].sx+startw1+paddingh1+(startw1+paddingh)*j, tetrisModels[7+i][col-1].sy-paddingv/2,startw1) ;
 					this.addActor(nextModels[i][j].image);
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
@@ -195,18 +201,6 @@ public class BgStage extends Stage {
 		models[18] = new ModelV(tetrisModels) ;
 	}
 	
-	public void resetPic(String path) {
-		Texture myPic = new Texture("data/"+path) ;
-		int picw = myPic.getWidth()/col ;
-		int pich = myPic.getHeight()/line ;
-		
-		for (int i = 0; i < line; i++) {
-			for (int j = 0; j < col; j++) {
-				tetrisModels[i][j].setData(new TextureRegion(myPic, picw*j, pich*i, picw, pich)) ;
-			}
-		}
-	}
-	
 	private void initLabel() {
 		float w = 100 ;
 		float h = 30 ;
@@ -220,12 +214,12 @@ public class BgStage extends Stage {
 		hiscoreLabel = new Label(FileUtil.getScore(), new LabelStyle(font,font.getColor())) ;
 		scoreLabel.setPosition(Gdx.graphics.getWidth()-scoreLabelX, Gdx.graphics.getHeight()-scoreLabelY) ;
 		scoreLabel.setSize(w, h) ;
-//		scoreLabel.setFontScale(0.7f) ;
+		scoreLabel.setFontScale(1.5f) ;
 		scoreLabel.setColor(Color.BLACK) ;
 		this.addActor(scoreLabel);
 		hiscoreLabel.setPosition(Gdx.graphics.getWidth()-scoreLabelX, Gdx.graphics.getHeight()-hiscoreLabelY) ;
 		hiscoreLabel.setSize(w, h) ;
-//		hiscoreLabel.setFontScale(0.7f) ;
+		hiscoreLabel.setFontScale(1.5f) ;
 		hiscoreLabel.setColor(Color.BLACK) ;
 		this.addActor(hiscoreLabel);
 	}
@@ -243,7 +237,7 @@ public class BgStage extends Stage {
 		long time = System.currentTimeMillis() ;
 		if (witchPress!=0&&time-clickTime>clickdelay) {
 			clickTime = time ;
-			clickdelay = clickdelay>40?clickdelay-40:clickdelay ;
+			clickdelay = clickdelay>30?clickdelay-50:clickdelay ;
 			if (isPause==0) {
 				switch (witchPress) {
 				case 1:
@@ -262,10 +256,10 @@ public class BgStage extends Stage {
 		}
 		if (time-curTime>delay) {
 			curTime = time ;
-			if (index<0) {
+			if (index<2) {
 				if (visible) {
 					playSound(overSound) ;
-					index = 19 ;
+					index = 21 ;
 					visible = false ;
 				} else {
 					if (!isStart) {
@@ -277,7 +271,7 @@ public class BgStage extends Stage {
 					}
 				}
 			}
-			if (index>=0) {
+			if (index>=2) {
 				setLineVisible(index,visible) ;
 				index-- ;
 			}
@@ -285,7 +279,7 @@ public class BgStage extends Stage {
 	}
 	
 	private void setStartPage(){
-		for (int i = 0; i < line; i++) {
+		for (int i = 2; i < line+2; i++) {
 			setLineVisible(i,true) ;
 		}
 	}
@@ -372,7 +366,7 @@ public class BgStage extends Stage {
 //	}
 	
 	private void clearScreen() {
-		for (int i = 0; i < line; i++) {
+		for (int i = 0; i < line+2; i++) {
 			setLineVisible(i,false) ;
 		}
 	}
@@ -417,12 +411,18 @@ public class BgStage extends Stage {
 		}
 	}
 	
+	public static void setSpead() {
+		witchPress = 0 ;
+		clickTime = 0 ;
+		clickdelay = 180 ;
+	}
+	
 	public static void reset() {
 		showStartAnim = true ;
 		isStart = false ;
 		isPause = -1 ;
 		delay = 10 ;
-		index = 19 ;
+		index = 21 ;
 		visible = true ;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -457,22 +457,7 @@ public class BgStage extends Stage {
 			} else if (event.getListenerActor() == button_c) {
 				models[modelIndex].change() ;
 				playSound(rotateSound) ;
-			} else if (event.getListenerActor() == topbg) {
-				playSound(buttonSound) ;
-				isStart = true ;
-				if (isPause == -1) {
-					nextIndex = (int) (Math.random()*modelSize) ;
-					setModelIndex() ;
-					isPause = 0 ;
-					delay = 400 ;
-					clearScreen() ;
-					curTime = System.currentTimeMillis() ;
-				} else if(isPause ==0) {
-					isPause = 1 ;
-				} else {
-					isPause = 0 ;
-				}
-			}else if (event.getListenerActor() == button_d) {
+			} else if (event.getListenerActor() == button_d) {
 				witchPress = 3 ;
 				playSound(buttonSound) ;
 			}
@@ -483,13 +468,54 @@ public class BgStage extends Stage {
 			System.out.println("touchUp");
 			witchPress = 0 ;
 			clickTime = 0 ;
-			clickdelay = 200 ;
+			clickdelay = 180 ;
 		};
 	} ;
+	
+	public void paly() {
+		playSound(buttonSound) ;
+		isStart = true ;
+		if (isPause == -1) {
+			nextIndex = (int) (Math.random()*modelSize) ;
+			setModelIndex() ;
+			isPause = 0 ;
+			delay = 600 ;
+			clearScreen() ;
+			curTime = System.currentTimeMillis() ;
+		} else if(isPause ==0) {
+			isPause = 1 ;
+		} else {
+			isPause = 0 ;
+		}
+		witchPress = 0 ;
+		clickTime = 0 ;
+		clickdelay = 180 ;
+	}
+	
+	public void sound() {
+		canPlaySond = !canPlaySond ;
+		witchPress = 0 ;
+		clickTime = 0 ;
+		clickdelay = 180 ;
+	}
+	
+	private void playReset() {
+		if (isPause == 0) {
+			isPause = 1 ; 
+		}
+		witchPress = 0 ;
+		clickTime = 0 ;
+		clickdelay = 180 ;
+		canPlaySond = true ;
+	}
 	
 	public void dispose() {
 		super.dispose() ;
 		System.out.println("dispose");
+		dostory() ;
+	};
+	
+	public void dostory() {
 		buttonSound.dispose() ;
 		removeSound.dispose() ;
 		rotateSound.dispose() ;
@@ -497,19 +523,23 @@ public class BgStage extends Stage {
 		score = 0 ;
 		scoreLabel = null ;
 		scoreLabelX = 120 ;
-		scoreLabelY = 115 ;
+		scoreLabelY = 120 ;
 		nextModels = null ;
 		models = null ;
 		showStartAnim = true ;
 		isStart = false ;
 		isPause = -1 ;
-		delay = 10 ;
-		index = 19 ;
+		delay = 20 ;
+		index = 21 ;
 		modelSize = 19 ;
 		modelIndex = 0 ;
 		nextIndex = 0 ;
 		visible = true ;
 		canPlaySond = true ;
 		removeSound = null ;
-	};
+		
+		clickTime = 0 ;
+		clickdelay = 180 ;
+		witchPress = 0;
+	}
 }

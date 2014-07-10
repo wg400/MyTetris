@@ -29,22 +29,29 @@ public class FileUtil {
 		}
 	}
 	
-	public static void newFile() {
-		File file = new File("/mnt/sdcard/external_sd/score.txt") ;
-		try {
-			if (!file.exists()) {
-				file.createNewFile() ;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public static void setScore(long score) {
 		FileHandle file = Gdx.files.external("score.txt") ;
 		if (!file.exists()) {
 			file.file() ;
 		}
 		file.writeString(score+"", false) ;
+	}
+	
+	public static String getPic() {
+		FileHandle file = Gdx.files.external("pic.txt") ;
+		if (!file.exists()) {
+			return "1.jpg" ;
+		} else {
+			String text = file.readString();
+			return text ;
+		}
+	}
+	
+	public static void setPic(String txt) {
+		FileHandle file = Gdx.files.external("pic.txt") ;
+		if (!file.exists()) {
+			file.file() ;
+		}
+		file.writeString(txt, false) ;
 	}
 }

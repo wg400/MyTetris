@@ -7,6 +7,14 @@ public class Model {
 	public int j ;
 	public TetrisModel[][] tetrisModels ;
 	
+	public boolean getLock(int i,int j) {
+		if (i>=0) {
+			return tetrisModels[i][j].isLock ;
+		} else {
+			return false ;
+		}
+	}
+	
 	public Model(int i, int j,TetrisModel[][] tetrisModels) {
 		super();
 		this.i = i;
@@ -47,6 +55,7 @@ public class Model {
 			BgStage.setScore(size) ;
 			BgStage.playSound() ;
 		}
+		BgStage.setSpead() ;
 	}
 	
 	private void setLineVisible(int index,boolean visible) {
@@ -61,7 +70,7 @@ public class Model {
 	
 	public void moveModel(Model model,boolean visible) {} ;
 	public void change() {
-		if (i<18&&j>0&&j<9&&!tetrisModels[i-1][j-1].isLock&&!tetrisModels[i-1][j].isLock
+		if (i>0&&i<18&&j>0&&j<9&&!tetrisModels[i-1][j-1].isLock&&!tetrisModels[i-1][j].isLock
 				&&!tetrisModels[i-1][j+1].isLock&&!tetrisModels[i][j-1].isLock
 				&&!tetrisModels[i][j].isLock&&!tetrisModels[i][j+1].isLock
 				&&!tetrisModels[i+1][j-1].isLock&&!tetrisModels[i+1][j].isLock

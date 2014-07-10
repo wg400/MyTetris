@@ -35,7 +35,7 @@ public class ModelL7 extends Model  {
 	}
 
 	public void moveDown() {
-		if (this.i<19) {
+		if (this.i<21) {
 			this.i++ ;
 			if (tetrisModels[i][j+1].isLock || tetrisModels[i][j].isLock || tetrisModels[i][j-1].isLock) {
 				this.i-- ;

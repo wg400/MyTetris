@@ -3,6 +3,8 @@ package sll.wg.tetris.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import sll.wg.tetris.FileUtil;
+
 import com.wg.mylib.views.lisview.HorizontalListView;
 
 import android.app.Activity;
@@ -13,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class PicSelectActivity extends Activity {
+	public static AndroidLauncher AndroidLauncher ;
 	private HorizontalListView listview ;
 	private PicSelectAdapter adapter ;
 	@Override
@@ -63,11 +66,11 @@ public class PicSelectActivity extends Activity {
 	}
 	
 	public void doSelect(View view) {
-		if (adapter.selectIndex!=-1) {
-			Intent intent = new Intent() ;
-			intent.putExtra("path", adapter.getItem().StrPath) ;
-			setResult(102, intent);
-		}
+		FileUtil.setPic(adapter.getItem().StrPath) ;
+		AndroidLauncher.finish() ;
+		AndroidLauncher = null ;
+		Intent intent = new Intent(this, AndroidLauncher.class) ;
+		startActivity(intent) ;
 		onBackPressed();
 	}
 	

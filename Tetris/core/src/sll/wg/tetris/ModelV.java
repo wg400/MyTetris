@@ -35,7 +35,7 @@ public class ModelV extends Model  {
 	}
 
 	public void moveDown() {
-		if (this.i<17) {
+		if (this.i<19) {
 			this.i++ ;
 			if (tetrisModels[i+2][j].isLock) {
 				this.i-- ;

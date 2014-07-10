@@ -7,7 +7,7 @@ public class ModelH extends Model  {
 	}
 	
 	public void reset() {
-		this.i = 0 ;
+		this.i = 2 ;
 		this.j = 4 ;
 	}
 
@@ -40,7 +40,7 @@ public class ModelH extends Model  {
 	}
 
 	public void moveDown() {
-		if (this.i<19) {
+		if (this.i<21) {
 			this.i++ ;
 			if (tetrisModels[i][j-1].isLock || tetrisModels[i][j].isLock || tetrisModels[i][j+1].isLock || tetrisModels[i][j+2].isLock) {
 				this.i-- ;
@@ -58,7 +58,7 @@ public class ModelH extends Model  {
 	
 	public void lock() {
 		moveModel(this,true) ;
-		if (i==0&&j==4) {
+		if (i==2&&j==4) {
 			// ÓÎÏ·½áÊø
 			BgStage.reset();
 		} else {
