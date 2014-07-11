@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -130,7 +131,17 @@ public class BgStage extends Stage {
 		float paddingh = 2.4f ;
 		float paddingv = 2.6f ;
 		float paddingh1 = 21f ;
-		myPic = new Texture("data/"+path) ;
+		if (path.equals("tetris.jpg")) {
+//			Gdx.files.absolute("/sdcard/"+path) ;
+			FileHandle file = Gdx.files.absolute("/sdcard/"+path) ;
+			if (file.exists()) {
+				myPic = new Texture(file) ;
+			} else {
+				myPic = new Texture("data/1.jpg") ;
+			}
+		} else {
+			myPic = new Texture("data/"+path) ;
+		}
 		int picw = myPic.getWidth()/col ;
 		int pich = myPic.getHeight()/line ;
 		curTime = System.currentTimeMillis() ;

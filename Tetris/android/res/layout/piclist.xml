@@ -8,31 +8,44 @@
     
     <com.wg.mylib.views.lisview.HorizontalListView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:id="@+id/listview" />
     
     <LinearLayout 
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
         <Button 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="确定"
-            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="选择"
             android:textColor="#00BFFF"
             android:textSize="18sp"
-            android:onClick="doSelect"
-            android:layout_weight="1"/>
+            android:onClick="doSelect"/>
         <Button 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="拍照"
+            android:textColor="#00BFFF"
+            android:textSize="18sp"
+            android:onClick="takePhoto"/>
+        <Button 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相册"
+            android:textColor="#00BFFF"
+            android:textSize="18sp"
+            android:onClick="album"/>
+        <Button 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="取消"
             android:textColor="#00BFFF"
             android:textSize="18sp"
-            android:onClick="doBack"
-            android:layout_weight="1"/>
+            android:onClick="doBack"/>
     </LinearLayout>
 
 </LinearLayout>
