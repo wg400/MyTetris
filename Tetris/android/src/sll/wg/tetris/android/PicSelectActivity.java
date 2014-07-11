@@ -68,21 +68,6 @@ public class PicSelectActivity extends Activity {
 		image = new ImageEntity("2.jpg","ͼƬ2") ;
 		images.add(image) ;
 		
-		image = new ImageEntity("3.jpg","ͼƬ3") ;
-		images.add(image) ;
-		
-		image = new ImageEntity("4.jpg","ͼƬ4") ;
-		images.add(image) ;
-		
-		image = new ImageEntity("5.jpg","ͼƬ5") ;
-		images.add(image) ;
-		
-		image = new ImageEntity("6.jpg","ͼƬ6") ;
-		images.add(image) ;
-		
-		image = new ImageEntity("7.jpg","ͼƬ7") ;
-		images.add(image) ;
-		
 		return images ;
 	}
 	
