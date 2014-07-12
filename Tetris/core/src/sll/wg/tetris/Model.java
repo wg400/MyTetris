@@ -70,7 +70,7 @@ public class Model {
 	
 	public void moveModel(Model model,boolean visible) {} ;
 	public void change() {
-		if (i>0&&i<18&&j>0&&j<9&&!tetrisModels[i-1][j-1].isLock&&!tetrisModels[i-1][j].isLock
+		if (i>2&&i<20&&j>0&&j<9&&!tetrisModels[i-1][j-1].isLock&&!tetrisModels[i-1][j].isLock
 				&&!tetrisModels[i-1][j+1].isLock&&!tetrisModels[i][j-1].isLock
 				&&!tetrisModels[i][j].isLock&&!tetrisModels[i][j+1].isLock
 				&&!tetrisModels[i+1][j-1].isLock&&!tetrisModels[i+1][j].isLock

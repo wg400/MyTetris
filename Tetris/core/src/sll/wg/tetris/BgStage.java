@@ -28,9 +28,9 @@ public class BgStage extends Stage {
 	float bottomH ;
 	float startTopW ;
 	float startTopH ;
-	static float scoreLabelX = 120 ;
+	static float scoreLabelX = 140 ;
 	static float scoreLabelY = 120 ;
-	float hiscoreLabelY = 200 ;
+	float hiscoreLabelY = 210 ;
 	ImageButton button_l ;
 	ImageButton button_r ;
 	ImageButton button_d ;
@@ -80,7 +80,7 @@ public class BgStage extends Stage {
 		rotateSound.setLooping(rotateSound.loop(), false) ;
 		
 		TextureRegion topbgregion = new TextureRegion(new Texture("data/top_bg.png")) ;
-		TextureRegion bgregion = new TextureRegion(new Texture("data/bg.png")) ;
+		TextureRegion bgregion = new TextureRegion(new Texture("data/bg.jpg")) ;
 		Texture button_n = new Texture("data/button_n.png") ;
 		Texture button_f = new Texture("data/button_f.png") ;
 		TextureRegionDrawable drawable_n = new TextureRegionDrawable(new TextureRegion(button_n)) ;
@@ -183,7 +183,7 @@ public class BgStage extends Stage {
 			for (int j = 0; j < 4; j++) {
 				try {
 					nextModels[i][j] = tetrisModel1.clone(new Texture("data/tetris.png")) ;
-					nextModels[i][j].setData(tetrisModels[7+i][col-1].sx+startw1+paddingh1+(startw1+paddingh)*j, tetrisModels[7+i][col-1].sy-paddingv/2,startw1) ;
+					nextModels[i][j].setData(tetrisModels[8+i][col-1].sx+startw1+paddingh1+(startw1+paddingh)*j, tetrisModels[8+i][col-1].sy-paddingv/2,startw1) ;
 					this.addActor(nextModels[i][j].image);
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
@@ -248,7 +248,7 @@ public class BgStage extends Stage {
 		long time = System.currentTimeMillis() ;
 		if (witchPress!=0&&time-clickTime>clickdelay) {
 			clickTime = time ;
-			clickdelay = clickdelay>30?clickdelay-50:clickdelay ;
+			clickdelay = clickdelay>9?clickdelay-57:clickdelay ;
 			if (isPause==0) {
 				switch (witchPress) {
 				case 1:
