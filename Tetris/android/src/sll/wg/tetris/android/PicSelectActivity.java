@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.wg.mylib.utils.ImageUtil;
 import com.wg.mylib.utils.LogUtil;
+import com.wg.mylib.utils.StringUtil;
 import com.wg.mylib.utils.TipsUtil;
 import com.wg.mylib.views.lisview.HorizontalListView;
 
@@ -45,6 +46,10 @@ public class PicSelectActivity extends Activity {
 		setContentView(R.layout.piclist);
 		adapter = new PicSelectAdapter(this) ;
 		adapter.images = initImages() ;
+		if (!StringUtil.isEmpty(FileUtil.getPic())&&!FileUtil.getPic().equals("tetris.jpg")) {
+			String[] temp = FileUtil.getPic().split("\\.") ;
+			adapter.selectIndex = Integer.parseInt(temp[0])-1 ;
+		}
 		listview = (HorizontalListView) findViewById(R.id.listview) ;
 		listview.setAdapter(adapter);
 		
@@ -52,8 +57,16 @@ public class PicSelectActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> list, View view, int position,
 					long id) {
-				adapter.selectIndex = position ;
-				adapter.notifyDataSetChanged() ;
+				if (adapter.selectIndex != position) {
+					adapter.selectIndex = position ;
+					adapter.notifyDataSetChanged() ;
+					FileUtil.setPic(adapter.getItem().StrPath) ;
+					AndroidLauncher.finish() ;
+					AndroidLauncher = null ;
+					Intent intent = new Intent(PicSelectActivity.this, AndroidLauncher.class) ;
+					startActivity(intent) ;
+				}
+				onBackPressed();
 			}
 		});
 	}
@@ -71,16 +84,16 @@ public class PicSelectActivity extends Activity {
 		return images ;
 	}
 	
-	public void doSelect(View view) {
-		if (adapter.getItem() != null) {
-			FileUtil.setPic(adapter.getItem().StrPath) ;
-		}
-		AndroidLauncher.finish() ;
-		AndroidLauncher = null ;
-		Intent intent = new Intent(this, AndroidLauncher.class) ;
-		startActivity(intent) ;
-		onBackPressed();
-	}
+//	public void doSelect(View view) {
+//		if (adapter.getItem() != null) {
+//			FileUtil.setPic(adapter.getItem().StrPath) ;
+//		}
+//		AndroidLauncher.finish() ;
+//		AndroidLauncher = null ;
+//		Intent intent = new Intent(this, AndroidLauncher.class) ;
+//		startActivity(intent) ;
+//		onBackPressed();
+//	}
 	
 	public void album(View view) {
 		ImageUtil.getPicFromCaptureOrLocal(this, null, false, FLAG_CHOOSE_IMG);
@@ -133,20 +146,6 @@ public class PicSelectActivity extends Activity {
 		} else if (requestCode == FLAG_MODIFY_FINISH && resultCode == RESULT_OK) {
 			if (data != null) {
 				String filePath = "tetris.jpg" ;
-//				uploadFile = new File(File.separator + "mnt" + File.separator + "sdcard" + File.separator + filePath) ;
-//				if (uploadFile.exists()) {
-//					uploadFile.delete() ;
-//				}
-//				try {
-//					uploadFile.createNewFile() ;
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//				
-//				decodeUriAsFile(uploadFile,Uri.parse(savePath)) ;
-//				Bitmap bitmap = decodeUriAsBitmap(Uri.parse(savePath)) ;
-//				LogUtil.info("bitmap:"+bitmap) ;
-//				ImageUtil.saveBitmap(uploadFile, bitmap) ;
 				FileUtil.setPic(filePath) ;
 				AndroidLauncher.finish() ;
 				AndroidLauncher = null ;
@@ -155,48 +154,5 @@ public class PicSelectActivity extends Activity {
 				onBackPressed();
 			}
 		}
-	}
-	
-	private Bitmap decodeUriAsBitmap(Uri uri){
-		Bitmap bitmap = null;
-		try {
-			bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return bitmap;
-	}
-	
-	private void decodeUriAsFile(File file,Uri uri){
-		if (file.exists()) {
-			file.delete() ;
-		}
-		FileOutputStream fOut = null;
-		try {
-			fOut = new FileOutputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		int bytesum = 0;
-		int byteread = 0; 
-		byte[] buffer = new byte[1024];
-		int length;
-		InputStream inStream;
-		try {
-			inStream = getContentResolver().openInputStream(uri);
-			while ( (byteread = inStream.read(buffer)) != -1) {
-				bytesum += byteread; //字节数 文件大小 
-				fOut.write(buffer, 0, byteread);                
-			}   
-			fOut.flush();
-			inStream.close(); 
-			fOut.close() ;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 }

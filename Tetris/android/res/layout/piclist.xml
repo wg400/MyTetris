@@ -21,13 +21,6 @@
         <Button 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="选择"
-            android:textColor="#00BFFF"
-            android:textSize="18sp"
-            android:onClick="doSelect"/>
-        <Button 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="拍照"
             android:textColor="#00BFFF"
             android:textSize="18sp"

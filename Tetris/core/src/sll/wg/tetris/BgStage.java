@@ -28,9 +28,6 @@ public class BgStage extends Stage {
 	float bottomH ;
 	float startTopW ;
 	float startTopH ;
-	static float scoreLabelX = 140 ;
-	static float scoreLabelY = 120 ;
-	float hiscoreLabelY = 210 ;
 	ImageButton button_l ;
 	ImageButton button_r ;
 	ImageButton button_d ;
@@ -213,26 +210,30 @@ public class BgStage extends Stage {
 	}
 	
 	private void initLabel() {
-		float w = 100 ;
-		float h = 30 ;
-		w = Gdx.graphics.getWidth()*w/startTopW ; 
+		
+		float scoreLabelX = 140 ;
+		float scoreLabelY = 110 ;
+		float hiscoreLabelY = 205 ;
+		
 		scoreLabelX = Gdx.graphics.getWidth()*scoreLabelX/startTopW ;
-		h = topH*h/startTopH ;
 		scoreLabelY = topH*scoreLabelY/startTopH ;
 		hiscoreLabelY = topH*hiscoreLabelY/startTopH ;
 		BitmapFont font = new BitmapFont() ;
 		scoreLabel = new Label("", new LabelStyle(font,font.getColor())) ;
 		hiscoreLabel = new Label(FileUtil.getScore(), new LabelStyle(font,font.getColor())) ;
 		scoreLabel.setPosition(Gdx.graphics.getWidth()-scoreLabelX, Gdx.graphics.getHeight()-scoreLabelY) ;
-		scoreLabel.setSize(w, h) ;
+//		scoreLabel.setSize(w, h) ;
 		scoreLabel.setFontScale(1.5f) ;
 		scoreLabel.setColor(Color.BLACK) ;
 		this.addActor(scoreLabel);
 		hiscoreLabel.setPosition(Gdx.graphics.getWidth()-scoreLabelX, Gdx.graphics.getHeight()-hiscoreLabelY) ;
-		hiscoreLabel.setSize(w, h) ;
+//		hiscoreLabel.setSize(w, h) ;
 		hiscoreLabel.setFontScale(1.5f) ;
 		hiscoreLabel.setColor(Color.BLACK) ;
+		
+		this.addActor(scoreLabel);
 		this.addActor(hiscoreLabel);
+		
 	}
 	
 	private void setLineVisible(int index,boolean visible) {
@@ -533,8 +534,6 @@ public class BgStage extends Stage {
 		overSound.dispose() ;
 		score = 0 ;
 		scoreLabel = null ;
-		scoreLabelX = 120 ;
-		scoreLabelY = 120 ;
 		nextModels = null ;
 		models = null ;
 		showStartAnim = true ;
