@@ -78,8 +78,8 @@ public class BgStage extends Stage {
 		
 		TextureRegion topbgregion = new TextureRegion(new Texture("data/top_bg.png")) ;
 		TextureRegion bgregion = new TextureRegion(new Texture("data/bg.jpg")) ;
-		Texture button_n = new Texture("data/button_n.png") ;
-		Texture button_f = new Texture("data/button_f.png") ;
+		Texture button_n = new Texture("data/tetris_n.png") ;
+		Texture button_f = new Texture("data/tetris_f.png") ;
 		TextureRegionDrawable drawable_n = new TextureRegionDrawable(new TextureRegion(button_n)) ;
 		TextureRegionDrawable drawable_f = new TextureRegionDrawable(new TextureRegion(button_f)) ;
 		topbg = new Image(topbgregion) ;
@@ -137,7 +137,11 @@ public class BgStage extends Stage {
 				myPic = new Texture("data/1.jpg") ;
 			}
 		} else {
-			myPic = new Texture("data/"+path) ;
+			try {
+				myPic = new Texture("data/"+path) ;
+			} catch (Exception e) {
+				myPic = new Texture("data/1.jpg") ;
+			}
 		}
 		int picw = myPic.getWidth()/col ;
 		int pich = myPic.getHeight()/line ;
@@ -179,7 +183,7 @@ public class BgStage extends Stage {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				try {
-					nextModels[i][j] = tetrisModel1.clone(new Texture("data/tetris.png")) ;
+					nextModels[i][j] = tetrisModel1.clone(new Texture("data/tetris_n.png")) ;
 					nextModels[i][j].setData(tetrisModels[8+i][col-1].sx+startw1+paddingh1+(startw1+paddingh)*j, tetrisModels[8+i][col-1].sy-paddingv/2,startw1) ;
 					this.addActor(nextModels[i][j].image);
 				} catch (CloneNotSupportedException e) {
